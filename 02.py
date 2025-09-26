@@ -14,17 +14,17 @@ x_qualidade = np.arange(0,11,1)    # qualidade de 0 a 10
 
 # ? Função triangular de espera
 curta = fuzz.trimf(x_espera,[0,0,20])
-media = fuzz.trimf(x_espera,[15,30,45])
-longa = fuzz.trimf(x_espera,[40,60,60])
+media = fuzz.trimf(x_espera,[15,20,30])
+longa = fuzz.trimf(x_espera,[24,50,60])
 
 # ? Função triangular de satisfação
 baixa = fuzz.trimf(x_satisfacao,[0,0,4])
-media_s = fuzz.trimf(x_satisfacao,[3,5,7])
+media_s = fuzz.trimf(x_satisfacao,[3,7,8])
 alta = fuzz.trimf(x_satisfacao,[6,10,10])
 
 # ? Função triangular de qualidade
 ruim = fuzz.trimf(x_qualidade,[0,0,4])
-aceitavel = fuzz.trimf(x_qualidade,[3,5,7])
+aceitavel = fuzz.trimf(x_qualidade,[3,5,8])
 excelente = fuzz.trimf(x_qualidade,[6,10,10])
 
 # * inputs
@@ -43,6 +43,9 @@ p_baixa = fuzz_p(x_satisfacao,baixa,satisfacao)
 p_media_sat = fuzz_p(x_satisfacao,media_s,satisfacao)
 p_alta = fuzz_p(x_satisfacao,alta,satisfacao)
 
+
+
+
 # TODO: Aplicação das regras
 
 regra1 = np.fmin(p_longa, p_alta)  # longa + alta → aceitável
@@ -53,8 +56,9 @@ r1_ativado = np.fmin(regra1, aceitavel)
 r2_ativado = np.fmin(regra2, ruim)
 
 # TODO: agregação das regras
-qualidade = np.fmax(r1_ativado, r2_ativado)
 
+qualidade = np.fmax(r1_ativado, r2_ativado) 
+print(r1_ativado, r2_ativado)
 # TODO: deffuzy
 resultado = fuzz.defuzz(x_qualidade, qualidade, 'centroid')
 
