@@ -44,32 +44,29 @@ p_alta = fuzz_p(x_temp, alta, temp)
 
 # TODO: Aplicação das regras
 
-regra1 = np.fmin(p_seca, p_alta)   # seca AND alta == intensa
+regra1 = np.fmin(p_seca, p_alta)   # seca AND alta -> intensa
 
 # ! ativacao das regras
-r1_ativado = np.fmin(regra1, intensa)
+r1_ativado = np.fmin(regra1, intensa) # somente uma regra
 
 # TODO: defusando
-irrigacao = r1_ativado  # só uma regra
-if np.max(irrigacao) == 0:
-    print("Nenhuma regra ativada.")
+
+resultado = fuzz.defuzz(x_irrigacao, r1_ativado, 'centroid')
+
+print("")
+print(f"Grau de pertinência da umidade seca: {p_seca:.2f}")
+print(f"Grau de pertinência da umidade média: {p_media:.2f}")
+print(f"Grau de pertinência da umidade úmida: {p_umida:.2f}")
+print("")
+print(f"Grau de pertinência da temperatura baixa: {p_baixa:.2f}")
+print(f"Grau de pertinência da temperatura média: {p_media_t:.2f}")
+print(f"Grau de pertinência da temperatura alta: {p_alta:.2f}")
+print("")
+
+if resultado <= 2:
+    c = "irrigação quase nada"
+elif resultado <= 5:
+    c = "irrigação moderada"
 else:
-    resultado = fuzz.defuzz(x_irrigacao, irrigacao, 'centroid')
-
-    print("")
-    print(f"Grau de pertinência da umidade seca: {p_seca:.2f}")
-    print(f"Grau de pertinência da umidade média: {p_media:.2f}")
-    print(f"Grau de pertinência da umidade úmida: {p_umida:.2f}")
-    print("")
-    print(f"Grau de pertinência da temperatura baixa: {p_baixa:.2f}")
-    print(f"Grau de pertinência da temperatura média: {p_media_t:.2f}")
-    print(f"Grau de pertinência da temperatura alta: {p_alta:.2f}")
-    print("")
-
-    if resultado <= 2:
-        c = "irrigação quase nada"
-    elif resultado <= 5:
-        c = "irrigação moderada"
-    else:
-        c = "irrigação intensa"
-    print(f"Grau de Irrigação: {resultado:.2f} → Classificação: {c}")
+    c = "irrigação intensa"
+print(f"Grau de Irrigação: {resultado:.2f} → Classificação: {c}")

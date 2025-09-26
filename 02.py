@@ -58,7 +58,7 @@ r2_ativado = np.fmin(regra2, ruim)
 # TODO: agregação das regras
 
 qualidade = np.fmax(r1_ativado, r2_ativado) 
-print(r1_ativado, r2_ativado)
+
 # TODO: deffuzy
 resultado = fuzz.defuzz(x_qualidade, qualidade, 'centroid')
 
